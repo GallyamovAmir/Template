@@ -184,5 +184,56 @@ namespace Template_4333
 
         }
         //Третья лабораторная работа по ИСРПО
+
+        private async void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog()
+            {
+                DefaultExt = "*.json",
+                Filter = "файл Json |*.json",
+                Title = "Выберите файл"
+            };
+
+            if (!(ofd.ShowDialog() == true))
+                return;
+
+            List<gg> list;
+
+            using (FileStream fs = new FileStream(ofd.FileName, FileMode.OpenOrCreate))
+            {
+                list = await JsonSerializer.DeserializeAsync<List<gg>>(fs);
+            }
+            using (isrpo2Entities2 isrpoEntities = new isrpo2Entities2())
+            {
+                foreach (gg person in list)
+                {
+                    DateTime DateCreate = DateTime.Parse(person.CreateDate.ToString());
+                    TimeSpan TimeCreate = TimeSpan.Parse(person.CreateTime.ToString());
+                    DateTime DateClosed = new DateTime();
+
+                    if (person.ClosedDate != "")
+                        DateClosed = DateTime.Parse(person.ClosedDate.ToString());
+                    else
+                        DateClosed = Convert.ToDateTime(null);
+
+                    isrpoEntities.tableispro2.Add(new tableispro2()
+                    {
+                        Айди = Convert.ToString(person.Id),
+                        КодЗаказ = person.CodeOrder,
+                        Датасоздания = Convert.ToString(DateCreate),
+                        Времязаказ = Convert.ToString(TimeCreate),
+                        АйдиКлиент = Convert.ToString(person.CodeClient),
+                        Услуга = person.Services,
+                        Статус = person.Status,
+                        Датазакрытия = Convert.ToString(DateClosed),
+                        Времяпроката = person.ProkatTime
+                    });
+
+                }
+                isrpoEntities.SaveChanges();
+                MessageBox.Show("Успешный импорт");
+            }
+        }
+
     }
 }
