@@ -157,6 +157,18 @@ namespace Template_4333
             app.Visible = true;
         }
 
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            using (isrpo2Entities2 isrpoEntities = new isrpo2Entities2())
+            {
+                foreach (var item in isrpoEntities.tableispro2)
+                {
+                    isrpoEntities.tableispro2.Remove(item);
+                }
+                isrpoEntities.SaveChanges();
+            }
+            MessageBox.Show("Удалено");
+        }
 
     }
 }
