@@ -19,7 +19,7 @@ namespace Template_4333
         {
             InitializeComponent();
         }
-
+        //Вторая лабораторная работа ИСРПО
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog()
