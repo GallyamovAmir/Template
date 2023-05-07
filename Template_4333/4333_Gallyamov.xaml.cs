@@ -183,6 +183,6 @@ namespace Template_4333
             public string ProkatTime { get; set; }
 
         }
-
+        //Третья лабораторная работа по ИСРПО
     }
 }
